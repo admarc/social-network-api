@@ -1,0 +1,41 @@
+App\Entity\User:
+    type: entity
+    table: users
+    repositoryClass: App\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 100
+        password:
+            type: string
+            length: 64
+        surname:
+            type: string
+            length: 100
+        email:
+            type: string
+            length: 100
+            unique: true
+    oneToMany:
+        posts:
+            targetEntity: App\Entity\Post
+            mappedBy: user
+    manyToMany:
+        followers:
+            targetEntity: App\Entity\User
+            mappedBy: followees
+        followees:
+            targetEntity: App\Entity\User
+            inversedBy: followers
+            joinTable:
+                name: followers
+                joinColumns:
+                  follower_id:
+                    referencedColumnName: id
+                inverseJoinColumns:
+                  followee_id:
+                    referencedColumnName: id

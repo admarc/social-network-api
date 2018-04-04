@@ -1,0 +1,13 @@
+get_token:
+    path:      /api/%api_version%/getToken
+    controller: app.controller.authnetication_controller:getTokenAction
+
+user:
+    resource: './routes/user.yaml'
+    type:     yaml
+    prefix:   /api/%api_version%/
+
+post:
+    resource: './routes/post.yaml'
+    type:     yaml
+    prefix:   /api/%api_version%/

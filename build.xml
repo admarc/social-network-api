@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<project name="social network api" default="quality-check" basedir=".">
+    <target name="quality-check" depends="php-cs-fixer,phpmd,phpcs,security-checker,phpspec,behat" />
+
+    <target name="php-cs-fixer" description="https://github.com/FriendsOfPHP/PHP-CS-Fixer">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/php-cs-fixer"/>
+            <arg value="fix"/>
+            <arg value="--config=.php_cs"/>
+            <arg value="--rules=@Symfony,@PSR2"/>
+            <arg value="--dry-run"/>
+            <arg value="-v"/>
+            <arg value="--using-cache=false"/>
+        </exec>
+    </target>
+
+    <target name="phpmd" description="https://github.com/phpmd/phpmd">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/phpmd"/>
+            <arg value="src/"/>
+            <arg value="text"/>
+            <arg value="ruleset.xml"/>
+        </exec>
+    </target>
+
+    <target name="phpcs" description="https://github.com/squizlabs/PHP_CodeSniffer/">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/phpcs"/>
+            <arg value="src/"/>
+            <arg value="--standard=PSR2"/>
+            <arg value="--ignore=*/src/Migrations/*"/>
+        </exec>
+    </target>
+
+    <target name="security-checker" description="https://github.com/sensiolabs/security-checker">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/security-checker"/>
+            <arg value="security:check"/>
+            <arg value="composer.lock"/>
+        </exec>
+    </target>
+
+    <target name="phpspec">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/phpspec"/>
+            <arg value="run"/>
+            <arg value="--format=dot"/>
+        </exec>
+    </target>
+
+    <target name="behat">
+        <exec executable="php" failonerror="true">
+            <arg value="vendor/bin/behat"/>
+            <arg value="--format=progress"/>
+        </exec>
+    </target>
+</project>

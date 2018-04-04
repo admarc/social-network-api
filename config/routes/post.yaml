@@ -1,0 +1,19 @@
+list_post:
+    path:      /posts
+    controller: App\Controller\PostController:listAction
+    methods:  [GET]
+
+create_post:
+    path:      /posts
+    controller: App\Controller\PostController:createAction
+    methods:  [POST]
+
+update_post:
+    path:      /posts/{id}
+    controller: App\Controller\PostController:updateAction
+    methods:  [PUT]
+
+delete_post:
+    path:      /posts/{id}
+    controller: App\Controller\PostController:deleteAction
+    methods:  [DELETE]

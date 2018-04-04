@@ -1,0 +1,9 @@
+list_user:
+    path:      /users
+    controller: App\Controller\UserController:listAction
+    methods:  [GET]
+
+follow_user:
+    path:      /users/{id}/followers
+    controller: App\Controller\UserController:followAction
+    methods:  [PUT]

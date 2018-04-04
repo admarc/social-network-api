@@ -1,0 +1,13 @@
+App\Entity\Post:
+    exclusion_policy: ALL
+    properties:
+       id:
+           expose: true
+       createdAt:
+           expose: true
+       title:
+           expose: true
+           groups: [create,update]
+       content:
+           expose: true
+           groups: [create,update]
