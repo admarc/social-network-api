@@ -1,0 +1,6 @@
+App\Entity\Post:
+    properties:
+        title:
+            - NotBlank: { message: not_blank }
+        content:
+            - NotBlank: { message: not_blank }

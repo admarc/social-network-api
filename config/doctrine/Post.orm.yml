@@ -1,0 +1,30 @@
+App\Entity\Post:
+    type: entity
+    table: posts
+    repositoryClass: App\Repository\PostRepository
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        title:
+            type: string
+            length: 200
+        content:
+            type: text
+        createdAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                  on: create
+        updatedAt:
+            type: datetime
+            gedmo:
+                timestampable:
+                  on: update
+    manyToOne:
+        user:
+            targetEntity: App\Entity\User
+            inversedBy: posts
+            joinColumn:
+                nullable: true

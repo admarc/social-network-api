@@ -1,0 +1,77 @@
+parameters:
+    locale: 'en'
+    api_version: 'v1'
+
+services:
+    _defaults:
+        autowire: false
+        autoconfigure: false
+        public: false
+
+    App\Repository\RestController:
+        abstract:  true
+        calls:
+            - [setSerializer, ['@jms_serializer']]
+            - [setTokenStorage, ['@security.token_storage']]
+
+    App\Controller\UserController:
+        parent: App\Repository\RestController
+        arguments:
+            - '@App\Interactor\User\GetUsers'
+            - '@App\Interactor\User\FollowUser'
+        public: true
+        autowire: false
+        autoconfigure: false
+
+    App\Controller\PostController:
+        parent: App\Repository\RestController
+        arguments:
+            - '@App\Interactor\Post\CreatePost'
+            - '@App\Interactor\Post\UpdatePost'
+            - '@App\Interactor\Post\DeletePost'
+            - '@App\Interactor\Post\GetPosts'
+        public: true
+        autowire: false
+        autoconfigure: false
+
+    App\Controller\AuthenticationController: ~
+
+    App\Validator\EntityValidator:
+        arguments: ['@validator']
+
+    App\Interactor\User\GetUsers:
+        arguments: ['@App\Repository\UserRepository']
+
+    App\Interactor\User\FollowUser:
+        arguments: ['@App\Repository\UserRepository', '@doctrine.orm.entity_manager']
+
+    App\Interactor\Post\GetPosts:
+        arguments: ['@App\Repository\PostRepository']
+
+    App\Interactor\Post\CreatePost:
+        arguments: ['@doctrine.orm.entity_manager', '@App\Validator\EntityValidator']
+
+    App\Interactor\Post\UpdatePost:
+        arguments: ['@doctrine.orm.entity_manager', '@App\Validator\EntityValidator']
+
+    App\Interactor\Post\DeletePost:
+        arguments: ['@doctrine.orm.entity_manager']
+
+    App\Repository\UserRepository:
+        class: Doctrine\ORM\EntityRepository
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: ['App\Entity\User']
+
+    App\Repository\PostRepository:
+        class: Doctrine\ORM\EntityRepository
+        factory: 'doctrine.orm.entity_manager:getRepository'
+        arguments: ['App\Entity\Post']
+
+    App\GuzzleHttp\ApiClient:
+        class: GuzzleHttp\Client
+        arguments: [ base_uri: 'http://127.0.0.1:8000' ]
+        public: true
+
+    jms_serializer.object_constructor:
+        alias: jms_serializer.doctrine_object_constructor
+        public: false

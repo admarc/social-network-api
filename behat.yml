@@ -1,0 +1,17 @@
+default:
+    suites:
+        default:
+            paths: [ "%paths.base%/features" ]
+            contexts:
+                - DoctrineContext:
+                    - '@doctrine.orm.entity_manager'
+                    - '@security.password_encoder'
+                - RestContext:
+                    - '@App\GuzzleHttp\ApiClient'
+                    - '@lexik_jwt_authentication.jwt_manager'
+                    - '@doctrine.orm.entity_manager'
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: features/bootstrap/bootstrap.php
+                class: App\Kernel
